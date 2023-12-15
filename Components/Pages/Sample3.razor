@@ -1,0 +1,31 @@
+﻿@page "/sample3"
+@rendermode @(new InteractiveServerRenderMode(prerender:true))
+
+<h1>Server with prerendering = true</h1>
+@if (book is not null)
+{
+    <PageTitle>Book @book.ISBN</PageTitle>
+
+    <p>Book retrieved: @book.Title</p>
+
+    <p><a href="/">Home</a></p>
+}
+else
+{
+    <p>Fetching a Book from a service and try to visualize its title in PageTitle</p>
+    <p>Loading...</p>
+}
+@code
+{
+    Book book;
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(3000);
+        book = GetFromService();
+    }
+
+    private Book GetFromService()
+    {
+        return new Book() { ISBN = "1837635870", Title = "C# 12 and .NET 8 – Modern Cross-Platform Development Fundamentals" };
+    }
+}
